@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .platforms label {
+            font-size: 18px;
+        }
+        .result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .result h2 {
+            margin-top: 0;
+        }
+        .result p {
+            margin: 5px 0;
+        }
+        img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OSINT Search Tool</h1>
+        <form action="/search" method="POST">
+            <input type="text" name="username" placeholder="Enter Username" required />
+            <div class="platforms">
+                <label><input type="checkbox" name="platform" value="twitter" /> Twitter</label>
+                <label><input type="checkbox" name="platform" value="google" /> Google</label>
+                <label><input type="checkbox" name="platform" value="instagram" /> Instagram</label>
+                <label><input type="checkbox" name="platform" value="all" /> All</label>
+            </div>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if results %}
+            <h2>Search Results for: {{ username }}</h2>
+            {% for platform, data in results.items() %}
+                <div class="result">
+                    <h2>{{ platform.capitalize() }}</h2>
+                    {% if data.error %}
+                        <p>Error: {{ data.error }}</p>
+                    {% else %}
+                        {% if platform == 'google' %}
+                            <ul>
+                                {% for result in data.results %}
+                                    <li>
+                                        <p><strong>{{ result.title }}</strong></p>
+                                        <p>{{ result.snippet }}</p>
+                                        <a href="{{ result.link }}" target="_blank">Link</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p><strong>Name:</strong> {{ data.name }}</p>
+                            <p><strong>Bio:</strong> {{ data.bio }}</p>
+                            {% if data.followers_count %}
+                                <p><strong>Followers:</strong> {{ data.followers_count }}</p>
+                            {% endif %}
+                            <a href="{{ data.profile_url }}" target="_blank">Visit Profile</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
+

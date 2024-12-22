@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results for: {{ username }}</h1>
+    {% for platform, data in results.items() %}
+        <div>
+            <h2>{{ platform.capitalize() }}</h2>
+            <pre>{{ data | safe }}</pre>
+        </div>
+    {% endfor %}
+</body>
+</html>
