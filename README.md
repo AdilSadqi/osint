@@ -27,8 +27,8 @@ The OSINT (Open Source Intelligence) Search Tool is a web application for gather
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-repo/osint-search-tool.git
-   cd osint-search-tool
+   git clone https://github.com/AdilSadqi/osint.git
+   cd osint
    ```
 
 2. **Set Up Virtual Environment**:
